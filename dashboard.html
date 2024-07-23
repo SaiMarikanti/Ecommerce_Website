@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dash_html.css">
+</head>
+<body>
+    <header>
+        <div class="logo">My E-Commerce Site</div>
+        <div class="nav-links">
+            <a href="#" id="home-link">Home</a>
+            <input type="text" id="search-bar" placeholder="Search...">
+        </div>
+        <div class="nav-icons">
+            <div class="icon" id="wishlist-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                  </svg><span class="badge" id="wishlist-icon">0</span>
+            </div>
+            <div class="icon" id="cart-icon">
+                🛒 <span class="badge" id="cart-count">0</span>
+            </div>
+            <div class="icon" id="user-icon">👤</div>
+            
+        </div>
+    </header>
+    <div class="container">
+        <div class="products">
+            <!-- Example products -->
+            <div class="product">
+                <img src="https://via.placeholder.com/150" alt="Product 1">
+                <h3>Product 1</h3>
+                <p>$10.00</p>
+                <button onclick="buyProduct('Product 1', 10.00)">Buy</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/150" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$20.00</p>
+                <button onclick="buyProduct('Product 2', 20.00)">Buy</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/150" alt="Product 3">
+                <h3>Product 3</h3>
+                <p>$30.00</p>
+                <button onclick="buyProduct('Product 3', 30.00)">Buy</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-popup">
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <div id="cart-popup">
+        <h3>Cart Items</h3>
+        <ul id="cart-items">
+            <!-- Cart items will be displayed here -->
+        </ul>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        let cartCount = 0;
+        let cartItems = [];
+        document.getElementById('wishlist-icon').addEventListener('click', function() {
+            const cartPopup = document.getElementById('cart-popup');
+            cartPopup.style.display = cartPopup.style.display === 'none' || cartPopup.style.display === '' ? 'block' : 'none';
+            displayCartItems();
+        });
+
+        document.getElementById('cart-icon').addEventListener('click', function() {
+            const cartPopup = document.getElementById('cart-popup');
+            cartPopup.style.display = cartPopup.style.display === 'none' || cartPopup.style.display === '' ? 'block' : 'none';
+            displayCartItems();
+        });
+
+        document.getElementById('user-icon').addEventListener('click', function() {
+            const userPopup = document.getElementById('user-popup');
+            userPopup.style.display = userPopup.style.display === 'none' || userPopup.style.display === '' ? 'block' : 'none';
+        });
+
+        function buyProduct(productName, productPrice) {
+            cartCount++;
+            document.getElementById('cart-count').innerText = cartCount;
+            cartItems.push({ name: productName, price: productPrice });
+    
+        }
+
+        function removeCartItem(index) {
+            cartItems.splice(index, 1);
+            cartCount--;
+            document.getElementById('cart-count').innerText = cartCount;
+            displayCartItems();
+        }
+
+        function displayCartItems() {
+            const cartItemsList = document.getElementById('cart-items');
+            cartItemsList.innerHTML = '';
+            cartItems.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `${item.name} - $${item.price.toFixed(2)} <button onclick="removeCartItem(${index})">Remove</button>`;
+                cartItemsList.appendChild(listItem);
+            });
+        }
+
+        function checkout() {
+           
+            // Implement checkout logic here
+            document.getElementById('cart-popup').style.display = 'none';
+        }
+
+        function logout() {
+            alert('You have been logged out.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
